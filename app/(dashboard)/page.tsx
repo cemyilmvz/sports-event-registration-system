@@ -1,0 +1,11 @@
+import { redirect } from "next/navigation";
+import { auth } from "@/lib/auth";
+
+export default async function DashboardRedirectPage() {
+  const session = await auth();
+  if (!session) redirect("/login");
+
+  const role = (session.user as { role?: string })?.role;
+  if (role === "admin") redirect("/admin");
+  else redirect("/athlete");
+}
